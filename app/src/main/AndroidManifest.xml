@@ -25,7 +25,7 @@
             android:name=".AddIngredient"
             android:exported="false" />
         <activity
-            android:name=".activity_ingredient_list"
+            android:name=".IngredientList"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

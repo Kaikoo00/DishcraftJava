@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    tools:context=".activity_ingredient_list">
+    tools:context=".IngredientList">
 
     <!-- Back Button -->
 
@@ -84,9 +84,6 @@
             android:inputType="text"
             android:padding="8dp" />
 
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout

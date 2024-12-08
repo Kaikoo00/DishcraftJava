@@ -35,7 +35,7 @@ public class AddIngredient extends AppCompatActivity {
 
         Button addButton = findViewById(R.id.addIngredientAddButton);
         addButton.setOnClickListener(v -> {
-            Intent addNewIngredient = new Intent(AddIngredient.this, activity_ingredient_list.class);
+            Intent addNewIngredient = new Intent(AddIngredient.this, IngredientList.class);
             Bundle newIngredientInfo = new Bundle();
             String veganValue;
             if ((veganRG.getCheckedRadioButtonId() == R.id.addIngredientRB_Yes)) {

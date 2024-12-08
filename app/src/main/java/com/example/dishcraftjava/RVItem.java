@@ -1,6 +1,8 @@
 package com.example.dishcraftjava;
 
-public class RVItem {
+import java.io.Serializable;
+
+public class RVItem implements Serializable {
     private final String name;
     private final String description;
     private final int imageResource;

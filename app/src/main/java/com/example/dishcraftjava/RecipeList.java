@@ -2,8 +2,10 @@ package com.example.dishcraftjava;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +20,7 @@ import java.util.List;
 
 public class RecipeList extends AppCompatActivity {
     RVAdapter adapter;
-    List<RVItem> RVItemList;
+    ArrayList<RVItem> RVItemList;
     TextView addNewRecipeButtonTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +32,17 @@ public class RecipeList extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        RVItemList = IngredientList.initData();
+
+        // Initialize Views
         ImageView backButton = findViewById(R.id.recipeListBackButton);
         addNewRecipeButtonTV = findViewById(R.id.recipeListAddNewRecipeButtonTV);
+        RecyclerView rvIngredients = findViewById(R.id.recipeListRV);
+        EditText searchRecipeEV = findViewById(R.id.recipeListSearchEV);
+        adapter = new RVAdapter(RVItemList);
+        rvIngredients.setLayoutManager(new LinearLayoutManager(this));
+        rvIngredients.setAdapter(adapter);
 
         backButton.setOnClickListener(v -> {
             finish();
@@ -41,17 +52,25 @@ public class RecipeList extends AppCompatActivity {
             Intent intent = new Intent(RecipeList.this, GenerateRecipeIngredientSelection.class);
             startActivity(intent);
         });
-        RVItemList = new ArrayList<>();
-        RVItemList.add(new RVItem("Salt", "Vegetarian Friendly", R.drawable.ic_salt));
-        RVItemList.add(new RVItem("Water", "Vegetarian Friendly", R.drawable.ic_water));
-        RVItemList.add(new RVItem("Chicken (boneless)", "Non-Vegetarian", R.drawable.ic_chicken));
-        RVItemList.add(new RVItem("Pepper", "Vegetarian Friendly", R.drawable.ic_placeholder));
-        RVItemList.add(new RVItem("Garlic", "Vegetarian Friendly", R.drawable.ic_placeholder));
 
-        RecyclerView rvIngredients = findViewById(R.id.recipeListRV);
-        // Setting up RecyclerView
-        adapter = new RVAdapter(RVItemList);
-        rvIngredients.setLayoutManager(new LinearLayoutManager(this));
-        rvIngredients.setAdapter(adapter);
+        searchRecipeEV.setOnEditorActionListener((v, actionId, event) -> {
+            String searchText = searchRecipeEV.getText().toString();
+            ArrayList<RVItem> filteredList = new ArrayList<>();
+            for(RVItem item: RVItemList){
+                if(item.getName().toLowerCase().contains(searchText.toLowerCase())){
+                    filteredList.add(item);
+                }
+            }
+
+            if(filteredList.isEmpty()){
+                Toast.makeText(this, "No item match", Toast.LENGTH_SHORT).show();
+                adapter.setList(RVItemList);
+            }
+            else{
+                adapter.setList(filteredList);
+                adapter.notifyDataSetChanged();
+            }
+            return true;
+        });
     }
 }

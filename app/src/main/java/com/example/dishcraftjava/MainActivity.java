@@ -22,13 +22,13 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Button testButton = findViewById(R.id.mainViewIngredientsButton);
-        testButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, activity_ingredient_list.class);
+        Button viewIngredientsButton = findViewById(R.id.mainViewIngredientsButton);
+        viewIngredientsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, IngredientList.class);
             startActivity(intent);
         });
-        Button testButton2 = findViewById(R.id.mainViewRecipesButton);
-        testButton2.setOnClickListener(v -> {
+        Button viewRecipesButton = findViewById(R.id.mainViewRecipesButton);
+        viewRecipesButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, RecipeList.class);
             startActivity(intent);
         });

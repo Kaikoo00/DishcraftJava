@@ -15,8 +15,8 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHolder> {
 
-    private final List<RVItem> RVItemList;
-    private final SparseBooleanArray selectedItems = new SparseBooleanArray(); // Menyimpan status pilihan
+    private List<RVItem> RVItemList;
+    private SparseBooleanArray selectedItems = new SparseBooleanArray(); // Menyimpan status pilihan
 
     public RVAdapter(List<RVItem> RVItemList) {
         this.RVItemList = RVItemList;
@@ -62,6 +62,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHold
     @Override
     public int getItemCount() {
         return RVItemList.size();
+    }
+
+    public void setList(ArrayList<RVItem> filteredList) {
+        this.RVItemList = filteredList;
+        return;
     }
 
     static class IngredientViewHolder extends RecyclerView.ViewHolder {
