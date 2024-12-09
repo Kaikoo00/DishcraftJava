@@ -19,9 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class GenerateRecipeIngredientSelection extends AppCompatActivity {
+    ImageView backButton;
+    Button generateRecipeButton;
+    TextView addNewIngredientButton;
+    EditText searchIngredient;
+    RecyclerView rvIngredients;
     RVAdapter adapter;
     ArrayList<RVItem> RVItemList;
-    TextView addNewIngredientButton;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +37,16 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        RVItemList = IngredientList.initData();
+
+        // Initialize Trial Data
+        RVItemList = MainActivity.initData();
 
         // Initialize Views
-        ImageView backButton = findViewById(R.id.generateRecipeIngredientListBackButton);
+        backButton = findViewById(R.id.generateRecipeIngredientListBackButton);
         addNewIngredientButton = findViewById(R.id.generateRecipeIngredientListAddNewIngredientButtonTV);
-        Button generateRecipeButton = findViewById(R.id.generateRecipeIngredientListGenerateRecipeButton);
-        RecyclerView rvIngredients = findViewById(R.id.generateRecipeIngredientListRV);
-        EditText searchIngredient = findViewById(R.id.generateRecipeIgredientListSearchEV);
+        generateRecipeButton = findViewById(R.id.generateRecipeIngredientListGenerateRecipeButton);
+        rvIngredients = findViewById(R.id.generateRecipeIngredientListRV);
+        searchIngredient = findViewById(R.id.generateRecipeIgredientListSearchEV);
         adapter = new RVAdapter(RVItemList, 2);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);

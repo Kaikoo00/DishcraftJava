@@ -20,8 +20,11 @@ import java.util.List;
 
 public class RecipeList extends AppCompatActivity {
     RVAdapter adapter;
+    RecyclerView rvIngredients;
     ArrayList<RVItem> RVItemList;
     TextView addNewRecipeButtonTV;
+    EditText searchRecipeEV;
+    ImageView backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +36,14 @@ public class RecipeList extends AppCompatActivity {
             return insets;
         });
 
-        RVItemList = IngredientList.initData();
+        // Initialize Trial Data
+        RVItemList = MainActivity.initData();
 
         // Initialize Views
-        ImageView backButton = findViewById(R.id.recipeListBackButton);
+        backButton = findViewById(R.id.recipeListBackButton);
         addNewRecipeButtonTV = findViewById(R.id.recipeListAddNewRecipeButtonTV);
-        RecyclerView rvIngredients = findViewById(R.id.recipeListRV);
-        EditText searchRecipeEV = findViewById(R.id.recipeListSearchEV);
+        rvIngredients = findViewById(R.id.recipeListRV);
+        searchRecipeEV = findViewById(R.id.recipeListSearchEV);
         adapter = new RVAdapter(RVItemList,3);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);

@@ -18,6 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class IngredientList extends AppCompatActivity {
+    ImageView backButton;
+    TextView addNewIngredientButtonTV;
+    EditText searchIngredientEV;
+    RecyclerView rvIngredients;
+    RVAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,16 +34,18 @@ public class IngredientList extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        ArrayList<RVItem> RVItemList = initData();
+
+        // Initialize Trial Data
+        ArrayList<RVItem> RVItemList = MainActivity.initData();
 
         // Initialize Views Used in this Activity
-        ImageView backButton = findViewById(R.id.ingredientListBackButton);
-        TextView addNewIngredientButtonTV = findViewById(R.id.ingredientListAddNewIngredientButtonTV);
-        RecyclerView rvIngredients = findViewById(R.id.ingredientListRV);
-        RVAdapter adapter = new RVAdapter(RVItemList, 1);
+        backButton = findViewById(R.id.ingredientListBackButton);
+        addNewIngredientButtonTV = findViewById(R.id.ingredientListAddNewIngredientButtonTV);
+        rvIngredients = findViewById(R.id.ingredientListRV);
+        adapter = new RVAdapter(RVItemList, 1);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
-        EditText searchIngredientEV = findViewById(R.id.ingredientListSearchEV);
+        searchIngredientEV = findViewById(R.id.ingredientListSearchEV);
 
         backButton.setOnClickListener(v -> {
             finish();
@@ -68,15 +76,6 @@ public class IngredientList extends AppCompatActivity {
             return true;
         });
 
-    }
-    public static ArrayList<RVItem> initData(){
-        ArrayList<RVItem> RVItemList = new ArrayList<>();
-        RVItemList.add(new RVItem("Salt", "Vegetarian Friendly", R.drawable.ic_salt));
-        RVItemList.add(new RVItem("Water", "Vegetarian Friendly", R.drawable.ic_water));
-        RVItemList.add(new RVItem("Chicken (boneless)", "Non-Vegetarian", R.drawable.ic_chicken));
-        RVItemList.add(new RVItem("Pepper", "Vegetarian Friendly", R.drawable.ic_placeholder));
-        RVItemList.add(new RVItem("Garlic", "Vegetarian Friendly", R.drawable.ic_placeholder));
-        return RVItemList;
     }
 }
 

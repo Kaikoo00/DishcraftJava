@@ -14,6 +14,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class AddIngredient extends AppCompatActivity {
+    ImageView backButton;
+    Button addButton;
+    EditText ingredientNameEV;
+    RadioGroup veganRG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +30,15 @@ public class AddIngredient extends AppCompatActivity {
             return insets;
         });
 
-        EditText ingredientNameEV = findViewById(R.id.addIngredientNameEV);
-        RadioGroup veganRG = findViewById(R.id.addIngredientVeganRG);
-        ImageView backButton = findViewById(R.id.addIngredientBackButton);
+        ingredientNameEV = findViewById(R.id.addIngredientNameEV);
+        veganRG = findViewById(R.id.addIngredientVeganRG);
+        backButton = findViewById(R.id.addIngredientBackButton);
+        addButton = findViewById(R.id.addIngredientAddButton);
+
         backButton.setOnClickListener(v -> {
             finish();
         });
 
-        Button addButton = findViewById(R.id.addIngredientAddButton);
         addButton.setOnClickListener(v -> {
             Intent addNewIngredient = new Intent(AddIngredient.this, IngredientList.class);
             Bundle newIngredientInfo = new Bundle();
