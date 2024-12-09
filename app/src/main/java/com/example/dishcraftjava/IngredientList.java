@@ -34,7 +34,7 @@ public class IngredientList extends AppCompatActivity {
         ImageView backButton = findViewById(R.id.ingredientListBackButton);
         TextView addNewIngredientButtonTV = findViewById(R.id.ingredientListAddNewIngredientButtonTV);
         RecyclerView rvIngredients = findViewById(R.id.ingredientListRV);
-        RVAdapter adapter = new RVAdapter(RVItemList);
+        RVAdapter adapter = new RVAdapter(RVItemList, 1);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
         EditText searchIngredientEV = findViewById(R.id.ingredientListSearchEV);

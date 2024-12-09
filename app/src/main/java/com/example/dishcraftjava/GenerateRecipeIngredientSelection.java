@@ -41,7 +41,7 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
         Button generateRecipeButton = findViewById(R.id.generateRecipeIngredientListGenerateRecipeButton);
         RecyclerView rvIngredients = findViewById(R.id.generateRecipeIngredientListRV);
         EditText searchIngredient = findViewById(R.id.generateRecipeIgredientListSearchEV);
-        adapter = new RVAdapter(RVItemList);
+        adapter = new RVAdapter(RVItemList, 2);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
 

@@ -40,7 +40,7 @@ public class RecipeList extends AppCompatActivity {
         addNewRecipeButtonTV = findViewById(R.id.recipeListAddNewRecipeButtonTV);
         RecyclerView rvIngredients = findViewById(R.id.recipeListRV);
         EditText searchRecipeEV = findViewById(R.id.recipeListSearchEV);
-        adapter = new RVAdapter(RVItemList);
+        adapter = new RVAdapter(RVItemList,3);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
 
