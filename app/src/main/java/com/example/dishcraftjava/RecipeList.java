@@ -44,7 +44,7 @@ public class RecipeList extends AppCompatActivity {
         addNewRecipeButtonTV = findViewById(R.id.recipeListAddNewRecipeButtonTV);
         rvIngredients = findViewById(R.id.recipeListRV);
         searchRecipeEV = findViewById(R.id.recipeListSearchEV);
-        adapter = new RVAdapter(RVItemList,3);
+        adapter = new RVAdapter(RVItemList,3); // Adapter For Recipe
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
 
