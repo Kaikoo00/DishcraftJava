@@ -33,6 +33,9 @@ public class FoodItem {
         }
     }
 
+    public FoodItem(){
+
+    }
     // Getters and setters
     public String getName() {
         return name;
