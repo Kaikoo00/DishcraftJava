@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "475723653844",
+    "project_id": "dishcraftjava",
+    "storage_bucket": "dishcraftjava.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475723653844:android:f62f1f660c7051d7f59141",
+        "android_client_info": {
+          "package_name": "com.example.dishcraftjava"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi3ebfsNTIyzpz9vizCW3HtyyIOlBuchQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

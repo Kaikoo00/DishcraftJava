@@ -1,7 +1,10 @@
 package com.example.dishcraftjava;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,11 +16,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class AddIngredient extends AppCompatActivity {
     ImageView backButton;
     Button addButton;
     EditText ingredientNameEV;
     RadioGroup veganRG;
+
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +49,31 @@ public class AddIngredient extends AppCompatActivity {
         });
 
         addButton.setOnClickListener(v -> {
-            Intent addNewIngredient = new Intent(AddIngredient.this, IngredientList.class);
-            Bundle newIngredientInfo = new Bundle();
-            String veganValue;
+            boolean veganValue;
+            String ingredientName = ingredientNameEV.getText().toString();
+            /*TODO Add Picture Storing Method*/
             if ((veganRG.getCheckedRadioButtonId() == R.id.addIngredientRB_Yes)) {
-                veganValue = "Vegan";
+                veganValue = true;
             } else {
-                veganValue = "Non-Vegan";
+                veganValue = false;
             }
-            newIngredientInfo.putString("name", ingredientNameEV.getText().toString());
-            newIngredientInfo.putString("vegan", veganValue);
+
             /* TODO add picture input and saving method */
+            FoodItem newItem = new FoodItem(1);
+            newItem.setName(ingredientName);
+            newItem.setVegan(veganValue);
+            newItem.saveToFirebase(new FoodItem.OnFoodItemSavedCallback() {
+                @Override
+                public void onSuccess(String message) {
+                    Log.d("Ingredient", message);
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    Log.e("Ingredient", errorMessage);
+                }
+            });
+            finish();
         });
     }
 }
