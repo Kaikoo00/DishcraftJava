@@ -1,5 +1,6 @@
 package com.example.dishcraftjava;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,8 +27,14 @@ public class RecipeDetails extends AppCompatActivity {
             return insets;
         });
         // Data untuk Ingredients dan Steps
-        String[] ingredients = {"Chicken", "Flour", "Garlic", "Chili"};
-        String[] steps = {"Step 1: abc", "Step 2: cde", "Step 3: def", "Step 4: efg"};
+//        String[] ingredients = {"Chicken", "Flour", "Garlic", "Chili"};
+//        String[] steps = {"Step 1: abc", "Step 2: cde", "Step 3: def", "Step 4: efg"};
+
+        Intent intent = getIntent();
+//        Bundle ingredientsBundle = intent.getBundleExtra("ingredients");
+        String[] ingredients = intent.getStringArrayExtra("Ingredients");
+        String[] steps = {intent.getStringExtra("Recipe")};
+        System.out.println("Recipe Details" + intent.getStringExtra("Recipe"));
 
         // Inisialisasi Spinner Ingredients
         Spinner spinnerIngredients = findViewById(R.id.spinner_ingredients);

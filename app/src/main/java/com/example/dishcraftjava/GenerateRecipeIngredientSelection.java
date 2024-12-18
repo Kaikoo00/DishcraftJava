@@ -31,7 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.concurrent.Executor;
+import java.util.Arrays;
 
 public class GenerateRecipeIngredientSelection extends AppCompatActivity {
     ImageView backButton;
@@ -56,27 +56,6 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
         });
 
         // Initialize Trial Data
-        GenerativeModel gen = new GenerativeModel("gemini-1.5-flash", "AIzaSyBhTUJio7t-m8ANcdxLP3RCpIservJIi3I");
-        GenerativeModelFutures model = GenerativeModelFutures.from(gen);
-
-        Content content = new Content.Builder()
-                .addText("Write a short Sentence")
-                .build();
-
-        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
-        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
-                    @Override
-                    public void onSuccess(GenerateContentResponse result) {
-                        String resultText = result.getText();
-                        System.out.println(resultText);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                }, this.getMainExecutor());
-
         ingredientRef = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("Ingredient");
         // Initialize Views
@@ -95,12 +74,24 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
 
         generateRecipeButton.setOnClickListener(v -> {
             ArrayList<RVItem> selectedItems = (ArrayList<RVItem>) adapter.getSelectedItems();
-            Bundle ingredients = new Bundle();
-            ingredients.putSerializable("ingredients", selectedItems);
-            Intent intent = new Intent(GenerateRecipeIngredientSelection.this, RecipeDetails.class);
-            intent.putExtras(ingredients);
-            startActivity(intent);
+            String[] ingredients = new String[selectedItems.size()];
+            for (int i = 0; i < selectedItems.size(); i++) {
+                ingredients[i] = selectedItems.get(i).getName();
+            }
+
+            generateRecipe(ingredients, recipe -> {
+                if (recipe != null) {
+                    Intent intent = new Intent(GenerateRecipeIngredientSelection.this, RecipeDetails.class);
+                    intent.putExtra("Ingredients", ingredients);
+                    intent.putExtra("Recipe", recipe);
+                    Log.d("GenerateRecipe", "Recipe generated successfully: " + recipe);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "Failed to generate recipe. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+
 
         addNewIngredientButton.setOnClickListener(v -> {
             Intent intent = new Intent(GenerateRecipeIngredientSelection.this, AddIngredient.class);
@@ -160,5 +151,30 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
                 Log.e("IngredientList", "Failed to load ingredients: " + databaseError.getMessage());
             }
         });
+    }
+
+    private void generateRecipe(String[] ingredients, RecipeCallback callback) {
+        GenerativeModel gen = new GenerativeModel("gemini-1.5-flash", "AIzaSyBhTUJio7t-m8ANcdxLP3RCpIservJIi3I");
+        GenerativeModelFutures model = GenerativeModelFutures.from(gen);
+
+        Content content = new Content.Builder()
+                .addText("Generate only the name of the recipe and detailed steps to cook the recipe using the following ingredients "+ Arrays.toString(ingredients) + " and separate each line with \n")
+                .build();
+
+        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+
+        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+            @Override
+            public void onSuccess(GenerateContentResponse result) {
+                String resultText = result.getText();
+                callback.onRecipeGenerated(resultText); // Pass the result to the callback
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e("GenerateRecipe", "Failed to generate recipe: " + t.getMessage());
+                callback.onRecipeGenerated(null); // Pass null to indicate failure
+            }
+        }, this.getMainExecutor());
     }
 }
