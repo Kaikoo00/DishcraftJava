@@ -2,6 +2,7 @@ package com.example.dishcraftjava;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +17,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class GenerateRecipeIngredientSelection extends AppCompatActivity {
@@ -25,8 +32,10 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
     EditText searchIngredient;
     RecyclerView rvIngredients;
     RVAdapter adapter;
-    ArrayList<RVItem> RVItemList;
-    
+    ArrayList<RVItem> RVItemList = new ArrayList<>();
+
+    private DatabaseReference ingredientRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +48,9 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
         });
 
         // Initialize Trial Data
-        RVItemList = MainActivity.initData();
 
+        ingredientRef = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
+                .getReference("Ingredient");
         // Initialize Views
         backButton = findViewById(R.id.generateRecipeIngredientListBackButton);
         addNewIngredientButton = findViewById(R.id.generateRecipeIngredientListAddNewIngredientButtonTV);
@@ -50,7 +60,7 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
         adapter = new RVAdapter(RVItemList, 2);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
-
+        loadIngredients();
         backButton.setOnClickListener(v -> {
             finish();
         });
@@ -87,6 +97,40 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
             return true;
+        });
+    }
+    private void loadIngredients() {
+        ingredientRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(RVItemList != null) RVItemList.clear();
+                 // Clear the list to avoid duplicates
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    FoodItem ingredient = snapshot.getValue(FoodItem.class);
+                    if (ingredient != null) {
+                        // Convert FoodItem to RVItem
+                        String veganStatus;
+                        if (ingredient.isVegan()) veganStatus = "Vegan";
+                        else veganStatus = "Non-Vegan";
+                        RVItem rvItem = new RVItem(
+                                ingredient.getName(),
+                                veganStatus,
+                                R.drawable.ic_chicken
+                        );
+                        RVItemList.add(rvItem);
+                    }
+                }
+
+                // Notify the adapter about data changes
+                adapter.setList(RVItemList);
+                adapter.notifyDataSetChanged();
+                Log.d("IngredientList", "Loaded ingredients: " + RVItemList.size());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("IngredientList", "Failed to load ingredients: " + databaseError.getMessage());
+            }
         });
     }
 }

@@ -85,7 +85,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHold
 
     @Override
     public int getItemCount() {
-        return RVItemList.size();
+        if(RVItemList != null ){
+            return RVItemList.size();
+        }
+        else{
+            return 0;
+        }
     }
 
     public void setList(ArrayList<RVItem> filteredList) {
