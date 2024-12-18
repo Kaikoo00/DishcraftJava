@@ -1,23 +1,15 @@
 package com.example.dishcraftjava;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.List;
 
 public class FoodItem {
     private String name;
-    private String ingredients;
-    private String steps;
+    private List<String> ingredients;
+    private List<String> steps;
     private boolean isVegan;
-    private String imageFileName; // Local image file name
 
     // Firebase reference
     private DatabaseReference databaseRef;
@@ -45,11 +37,11 @@ public class FoodItem {
         this.name = name;
     }
 
-    public String getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(String ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -59,40 +51,6 @@ public class FoodItem {
 
     public void setVegan(boolean vegan) {
         isVegan = vegan;
-    }
-
-    public String getImageFileName() {
-        return imageFileName;
-    }
-
-    public void setImageFileName(String imageFileName) {
-        this.imageFileName = imageFileName;
-    }
-
-    // Save image locally
-    public void saveImageLocally(Context context, Bitmap image) {
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File file = new File(context.getFilesDir(), fileName);
-
-        try (FileOutputStream out = new FileOutputStream(file)) {
-            image.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            this.imageFileName = fileName;
-        } catch (IOException e) {
-            Log.e("FoodItem", "Failed to save image locally: " + e.getMessage());
-        }
-    }
-
-    // Load image from local storage
-    public Bitmap loadImageLocally(Context context) {
-        if (imageFileName != null) {
-            File file = new File(context.getFilesDir(), imageFileName);
-            if (file.exists()) {
-                return BitmapFactory.decodeFile(file.getAbsolutePath());
-            }
-        }
-
-        // Return a default image if the file is not found
-        return BitmapFactory.decodeResource(context.getResources(), android.R.drawable.ic_menu_gallery);
     }
 
     // Save data to Firebase
@@ -107,11 +65,11 @@ public class FoodItem {
         }
     }
 
-    public String getSteps() {
+    public List<String> getSteps() {
         return steps;
     }
 
-    public void setSteps(String steps) {
+    public void setSteps(List <String> steps) {
         this.steps = steps;
     }
 

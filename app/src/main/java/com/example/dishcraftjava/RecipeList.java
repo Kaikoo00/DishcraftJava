@@ -15,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class RecipeList extends AppCompatActivity {
     TextView addNewRecipeButtonTV;
     EditText searchRecipeEV;
     ImageView backButton;
+    FirebaseDatabase RecipeRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +51,8 @@ public class RecipeList extends AppCompatActivity {
         adapter = new RVAdapter(RVItemList,3); // Adapter For Recipe
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
-
+        // Initialize Firebase Reference
+        RecipeRef = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
         backButton.setOnClickListener(v -> {
             finish();
         });

@@ -158,7 +158,7 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
         GenerativeModelFutures model = GenerativeModelFutures.from(gen);
 
         Content content = new Content.Builder()
-                .addText("Generate only the name of the recipe and detailed steps to cook the recipe using the following ingredients "+ Arrays.toString(ingredients) + " and separate each line with \n")
+                .addText("Generate only the name of the recipe and detailed steps to cook the recipe using the following ingredients "+ Arrays.toString(ingredients) + " and separate each line with exactly one newline")
                 .build();
 
         ListenableFuture<GenerateContentResponse> response = model.generateContent(content);

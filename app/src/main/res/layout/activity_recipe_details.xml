@@ -14,8 +14,9 @@
         android:id="@+id/image_recipe"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_chicken"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_stock_food"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -53,7 +54,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_chicken"
+        android:src="@drawable/ic_bookmark"
         app:layout_constraintTop_toTopOf="@id/text_recipe_duration"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="Bookmark" />
