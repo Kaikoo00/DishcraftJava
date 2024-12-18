@@ -17,6 +17,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.ai.client.generativeai.GenerativeModel;
+import com.google.ai.client.generativeai.java.GenerativeModelFutures;
+import com.google.ai.client.generativeai.type.Content;
+import com.google.ai.client.generativeai.type.GenerateContentResponse;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 public class GenerateRecipeIngredientSelection extends AppCompatActivity {
     ImageView backButton;
@@ -48,6 +56,26 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
         });
 
         // Initialize Trial Data
+        GenerativeModel gen = new GenerativeModel("gemini-1.5-flash", "AIzaSyBhTUJio7t-m8ANcdxLP3RCpIservJIi3I");
+        GenerativeModelFutures model = GenerativeModelFutures.from(gen);
+
+        Content content = new Content.Builder()
+                .addText("Write a short Sentence")
+                .build();
+
+        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+                    @Override
+                    public void onSuccess(GenerateContentResponse result) {
+                        String resultText = result.getText();
+                        System.out.println(resultText);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                }, this.getMainExecutor());
 
         ingredientRef = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("Ingredient");
