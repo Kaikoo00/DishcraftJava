@@ -43,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="30dp"
         android:text="1h 30m"
         android:textColor="@android:color/darker_gray"
         android:textSize="14sp"

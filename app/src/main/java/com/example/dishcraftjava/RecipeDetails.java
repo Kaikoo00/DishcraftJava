@@ -40,8 +40,6 @@ public class RecipeDetails extends AppCompatActivity {
         String output = intent.getStringExtra("output");
         String[] lines = output.split("\\n");
 
-        System.out.println(ingredients);
-        System.out.println(output);
         // Remove excess newlines (empty strings) by filtering
         ArrayList<String> filteredLines = new ArrayList<>();
         for (String line : lines) {
@@ -64,6 +62,7 @@ public class RecipeDetails extends AppCompatActivity {
             recipe.saveToFirebase(new FoodItem.OnFoodItemSavedCallback() {
                 @Override
                 public void onSuccess(String message) {
+                    buttonBookmark.setImageResource(R.drawable.ic_bookmark_filled);
                     Log.d("Recipe", message);
                 }
 
@@ -78,7 +77,6 @@ public class RecipeDetails extends AppCompatActivity {
         TextView textRecipeName = findViewById(R.id.text_recipe_name);
         textRecipeName.setText(foodName);
 
-        // Inisialisasi Spinner Ingredients
         Spinner spinnerIngredients = findViewById(R.id.spinner_ingredients);
         spinnerIngredients.setClickable(false);
         assert ingredients != null;
@@ -87,7 +85,6 @@ public class RecipeDetails extends AppCompatActivity {
         ingredientsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_multiline);
         spinnerIngredients.setAdapter(ingredientsAdapter);
 
-        // Inisialisasi Spinner Steps
         Spinner spinnerSteps = findViewById(R.id.spinner_steps);
         spinnerSteps.setClickable(false);
         ArrayAdapter<String> stepsAdapter = new ArrayAdapter<>(

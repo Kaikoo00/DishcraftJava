@@ -32,6 +32,7 @@ public class RecipeList extends AppCompatActivity {
     EditText searchRecipeEV;
     ImageView backButton;
     FirebaseDatabase database;
+    DatabaseReference RecipeRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,21 +45,18 @@ public class RecipeList extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize Views
+        database = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
+        RecipeRef = database.getReference("Recipe");
+
         backButton = findViewById(R.id.recipeListBackButton);
         addNewRecipeButtonTV = findViewById(R.id.recipeListAddNewRecipeButtonTV);
         rvIngredients = findViewById(R.id.recipeListRV);
         searchRecipeEV = findViewById(R.id.recipeListSearchEV);
 
-        // Set up RecyclerView and Adapter
         RVItemList = new ArrayList<>();
         adapter = new RVAdapter(RVItemList, 3);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
-
-        // Initialize Firebase Reference
-        database = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
-        DatabaseReference RecipeRef = database.getReference("Recipe");
 
         // Read Data from Firebase and Populate RecyclerView
         RecipeRef.addValueEventListener(new ValueEventListener() {
@@ -72,7 +70,7 @@ public class RecipeList extends AppCompatActivity {
                     String description;
                     if(vegan) description = "Vegan";
                     else description = "Non-Vegan";
-                    int imageResource = R.drawable.ic_stock_food; // Replace with logic if your recipes have image URLs or IDs
+                    int imageResource = R.drawable.ic_stock_food;
 
                     // Add the item to the list
                     RVItemList.add(new RVItem(name, description, imageResource));
@@ -88,18 +86,15 @@ public class RecipeList extends AppCompatActivity {
             }
         });
 
-        // Set up back button
         backButton.setOnClickListener(v -> {
             finish();
         });
 
-        // Add New Recipe button
         addNewRecipeButtonTV.setOnClickListener(v -> {
             Intent intent = new Intent(RecipeList.this, GenerateRecipeIngredientSelection.class);
             startActivity(intent);
         });
 
-        // Set up search functionality
         searchRecipeEV.setOnEditorActionListener((v, actionId, event) -> {
             String searchText = searchRecipeEV.getText().toString();
             ArrayList<RVItem> filteredList = new ArrayList<>();

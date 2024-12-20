@@ -25,9 +25,6 @@ public class AddIngredient extends AppCompatActivity {
     EditText ingredientNameEV;
     RadioGroup veganRG;
 
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +55,6 @@ public class AddIngredient extends AppCompatActivity {
                 veganValue = false;
             }
 
-            /* TODO add picture input and saving method */
             FoodItem newItem = new FoodItem(1);
             newItem.setName(ingredientName);
             newItem.setVegan(veganValue);

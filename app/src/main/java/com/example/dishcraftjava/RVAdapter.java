@@ -20,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHolder> {
@@ -156,7 +155,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHold
 
     public void setList(ArrayList<RVItem> filteredList) {
         this.RVItemList = filteredList;
-        return;
     }
 
     static class IngredientViewHolder extends RecyclerView.ViewHolder {
@@ -172,7 +170,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHold
         }
     }
 
-    // Fungsi tambahan jika ingin mendapatkan daftar item yang dipilih
     public List<RVItem> getSelectedItems() {
         List<RVItem> selectedList = new ArrayList<>();
         for (int i = 0; i < selectedItems.size(); i++) {
@@ -184,12 +181,4 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHold
         return selectedList;
     }
 
-    public void addItem(RVItem newItem) {
-        RVItemList.add(newItem); // Tambahkan item baru ke list
-        notifyItemInserted(RVItemList.size() - 1); // Beritahu RecyclerView untuk memperbarui tampilan
-    }
-    public void removeItem(int position) {
-        RVItemList.remove(position); // Hapus item dari list
-        notifyItemRemoved(position); // Beritahu RecyclerView untuk memperbarui tampilan
-    }
 }

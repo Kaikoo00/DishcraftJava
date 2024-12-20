@@ -41,7 +41,6 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
     RecyclerView rvIngredients;
     RVAdapter adapter;
     ArrayList<RVItem> RVItemList = new ArrayList<>();
-
     private DatabaseReference ingredientRef;
 
     @Override
@@ -55,10 +54,9 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize Trial Data
-        ingredientRef = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
+        ingredientRef = FirebaseDatabase
+                .getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("Ingredient");
-        // Initialize Views
         backButton = findViewById(R.id.generateRecipeIngredientListBackButton);
         addNewIngredientButton = findViewById(R.id.generateRecipeIngredientListAddNewIngredientButtonTV);
         generateRecipeButton = findViewById(R.id.generateRecipeIngredientListGenerateRecipeButton);
@@ -67,7 +65,9 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
         adapter = new RVAdapter(RVItemList, 2);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
+
         loadIngredients();
+
         backButton.setOnClickListener(v -> {
             finish();
         });
@@ -134,7 +134,7 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
                         RVItem rvItem = new RVItem(
                                 ingredient.getName(),
                                 veganStatus,
-                                R.drawable.ic_chicken
+                                R.drawable.ic_stock_food
                         );
                         RVItemList.add(rvItem);
                     }

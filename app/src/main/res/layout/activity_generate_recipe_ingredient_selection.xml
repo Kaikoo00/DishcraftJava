@@ -86,58 +86,67 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/generateRecipeIngredientListMainLayout"
+        android:id="@+id/generateRecipeIngredientListHeaderLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/generateRecipeIngredientListSearchBarLayout">
+
+        <TextView
+            android:id="@+id/generateRecipeIngredientListHeaderTitleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="15dp"
+            android:text="Ingredient List" />
+
+        <TextView
+            android:id="@+id/generateRecipeIngredientListAddNewIngredientButtonTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:paddingVertical="10dp"
+            android:text="+ New" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/generateRecipeIngredientListMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="20dp"
+        android:paddingBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/generateRecipeIngredientListGenerateRecipeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/generateRecipeIngredientListSearchBarLayout">
-
-        <LinearLayout
-            android:id="@+id/generateRecipeIngredientListHeaderLayout"
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            android:layout_weight="0.2"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/generateRecipeIngredientListHeaderTitleTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:paddingVertical="10dp"
-                android:text="Ingredient List" />
-
-            <TextView
-                android:id="@+id/generateRecipeIngredientListAddNewIngredientButtonTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:paddingVertical="10dp"
-                android:text="+ New" />
-        </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/generateRecipeIngredientListHeaderLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/generateRecipeIngredientListRV"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingTop="8dp" />
-
-        <Button
-            android:id="@+id/generateRecipeIngredientListGenerateRecipeButton"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="0.2"
-            android:text="Generate" />
+            android:paddingBottom="30dp"
+            app:layout_constraintBottom_toTopOf="@+id/generateRecipeIngredientListGenerateRecipeButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/generateRecipeIngredientListHeaderLayout" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/generateRecipeIngredientListGenerateRecipeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_weight="3"
+        android:backgroundTint="@android:color/holo_orange_light"
+        android:text="Generate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,8 +29,6 @@ public class IngredientList extends AppCompatActivity {
     EditText searchIngredientEV;
     RecyclerView rvIngredients;
     RVAdapter adapter;
-
-    // Firebase Reference
     private DatabaseReference ingredientRef;
     private ArrayList<RVItem> RVItemList;
 
@@ -45,22 +43,18 @@ public class IngredientList extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize Firebase Reference
-        ingredientRef = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
+        ingredientRef = FirebaseDatabase
+                .getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("Ingredient");
-
-        // Initialize Views Used in this Activity
         backButton = findViewById(R.id.ingredientListBackButton);
         addNewIngredientButtonTV = findViewById(R.id.ingredientListAddNewIngredientButtonTV);
         rvIngredients = findViewById(R.id.ingredientListRV);
         searchIngredientEV = findViewById(R.id.ingredientListSearchEV);
-
         RVItemList = new ArrayList<>();
         adapter = new RVAdapter(RVItemList, 1);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
 
-        // Load Ingredients from Firebase
         loadIngredients();
 
         backButton.setOnClickListener(v -> finish());
@@ -105,7 +99,7 @@ public class IngredientList extends AppCompatActivity {
                         RVItem rvItem = new RVItem(
                                 ingredient.getName(),
                                 veganStatus,
-                                R.drawable.ic_chicken
+                                R.drawable.ic_stock_food
                                 );
                         RVItemList.add(rvItem);
                     }

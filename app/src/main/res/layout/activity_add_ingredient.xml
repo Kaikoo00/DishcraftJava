@@ -104,7 +104,8 @@
                     android:layout_height="wrap_content"
                     android:buttonTint="@android:color/black"
                     android:text="No"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textColorLink="@android:color/holo_orange_light" />
 
                 <RadioButton
                     android:id="@+id/addIngredientRB_Yes"
@@ -112,8 +113,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:buttonTint="@android:color/black"
+
                     android:text="Yes"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textColorLink="@android:color/holo_orange_light" />
             </RadioGroup>
         </LinearLayout>
 
@@ -149,6 +152,7 @@
             android:layout_height="wrap_content"
             android:text="Add"
             android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/holo_orange_light"
             android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

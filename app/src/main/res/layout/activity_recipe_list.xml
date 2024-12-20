@@ -86,41 +86,45 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/recipeListMainLayout"
+        android:id="@+id/recipeListHeaderLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/recipeListSearchBarLayout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/recipeListHeaderTitleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:paddingVertical="10dp"
+            android:paddingStart="15dp"
+            android:text="Recipe List" />
+
+        <TextView
+            android:id="@+id/recipeListAddNewRecipeButtonTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:paddingVertical="10dp"
+            android:text="+ Add" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/recipeListMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:padding="16dp"
+        android:paddingBottom="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeListSearchBarLayout">
-
-        <LinearLayout
-            android:id="@+id/recipeListHeaderLayout"
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            android:layout_weight="0.2"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/recipeListHeaderTitleTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:paddingVertical="10dp"
-                android:text="Recipe List" />
-
-            <TextView
-                android:id="@+id/recipeListAddNewRecipeButtonTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:paddingVertical="10dp"
-                android:text="+ Add" />
-        </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/recipeListHeaderLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeListRV"

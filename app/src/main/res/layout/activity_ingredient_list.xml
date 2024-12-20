@@ -87,41 +87,46 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ingredientListMainLayout"
+        android:id="@+id/ingredientListHeaderLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientListSearchBarLayout"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/ingredientListHeaderTitleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:paddingVertical="15dp"
+            android:paddingStart="15dp"
+            android:text="Ingredient List" />
+
+        <TextView
+            android:id="@+id/ingredientListAddNewIngredientButtonTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:paddingVertical="10dp"
+            android:text="+ New" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ingredientListMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:padding="16dp"
+        android:paddingBottom="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredientListSearchBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/ingredientListHeaderLayout">
 
-        <LinearLayout
-            android:id="@+id/ingredientListHeaderLayout"
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            android:layout_weight="0.2"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/ingredientListHeaderTitleTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:paddingVertical="10dp"
-                android:text="Ingredient List" />
-
-            <TextView
-                android:id="@+id/ingredientListAddNewIngredientButtonTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:paddingVertical="10dp"
-                android:text="+ New" />
-        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ingredientListRV"
