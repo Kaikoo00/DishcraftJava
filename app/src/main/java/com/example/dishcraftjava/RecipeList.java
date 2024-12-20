@@ -15,7 +15,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +31,7 @@ public class RecipeList extends AppCompatActivity {
     TextView addNewRecipeButtonTV;
     EditText searchRecipeEV;
     ImageView backButton;
-    FirebaseDatabase RecipeRef;
+    FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,42 +44,75 @@ public class RecipeList extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize Trial Data
-        RVItemList = MainActivity.initData();
-
         // Initialize Views
         backButton = findViewById(R.id.recipeListBackButton);
         addNewRecipeButtonTV = findViewById(R.id.recipeListAddNewRecipeButtonTV);
         rvIngredients = findViewById(R.id.recipeListRV);
         searchRecipeEV = findViewById(R.id.recipeListSearchEV);
-        adapter = new RVAdapter(RVItemList,3); // Adapter For Recipe
+
+        // Set up RecyclerView and Adapter
+        RVItemList = new ArrayList<>();
+        adapter = new RVAdapter(RVItemList, 3);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this));
         rvIngredients.setAdapter(adapter);
+
         // Initialize Firebase Reference
-        RecipeRef = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
+        database = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
+        DatabaseReference RecipeRef = database.getReference("Recipe");
+
+        // Read Data from Firebase and Populate RecyclerView
+        RecipeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                RVItemList.clear(); // Clear the list to avoid duplication
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // Assuming your data structure matches RVItem
+                    String name = snapshot.child("name").getValue(String.class);
+                    boolean vegan = snapshot.child("vegan").getValue(Boolean.class);
+                    String description;
+                    if(vegan) description = "Vegan";
+                    else description = "Non-Vegan";
+                    int imageResource = R.drawable.ic_stock_food; // Replace with logic if your recipes have image URLs or IDs
+
+                    // Add the item to the list
+                    RVItemList.add(new RVItem(name, description, imageResource));
+                }
+                // Notify adapter about data changes
+                adapter.setList(RVItemList);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(RecipeList.this, "Failed to load recipes: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Set up back button
         backButton.setOnClickListener(v -> {
             finish();
         });
 
+        // Add New Recipe button
         addNewRecipeButtonTV.setOnClickListener(v -> {
             Intent intent = new Intent(RecipeList.this, GenerateRecipeIngredientSelection.class);
             startActivity(intent);
         });
 
+        // Set up search functionality
         searchRecipeEV.setOnEditorActionListener((v, actionId, event) -> {
             String searchText = searchRecipeEV.getText().toString();
             ArrayList<RVItem> filteredList = new ArrayList<>();
-            for(RVItem item: RVItemList){
-                if(item.getName().toLowerCase().contains(searchText.toLowerCase())){
+            for (RVItem item : RVItemList) {
+                if (item.getName().toLowerCase().contains(searchText.toLowerCase())) {
                     filteredList.add(item);
                 }
             }
 
-            if(filteredList.isEmpty()){
-                Toast.makeText(this, "No item match", Toast.LENGTH_SHORT).show();
+            if (filteredList.isEmpty()) {
+                Toast.makeText(this, "No item matches", Toast.LENGTH_SHORT).show();
                 adapter.setList(RVItemList);
-            }
-            else{
+            } else {
                 adapter.setList(filteredList);
                 adapter.notifyDataSetChanged();
             }

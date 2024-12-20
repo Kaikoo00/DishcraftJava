@@ -37,9 +37,11 @@ public class RecipeDetails extends AppCompatActivity {
         Intent intent = getIntent();
 
         String[] ingredients = intent.getStringArrayExtra("Ingredients");
-        String output = intent.getStringExtra("Recipe");
+        String output = intent.getStringExtra("output");
         String[] lines = output.split("\\n");
 
+        System.out.println(ingredients);
+        System.out.println(output);
         // Remove excess newlines (empty strings) by filtering
         ArrayList<String> filteredLines = new ArrayList<>();
         for (String line : lines) {

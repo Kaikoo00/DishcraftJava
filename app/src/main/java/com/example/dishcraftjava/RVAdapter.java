@@ -8,10 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHolder> {
@@ -47,41 +56,93 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHold
         holder.descriptionTextView.setText(RVItem.getDescription());
         holder.imageView.setImageResource(RVItem.getImageResource());
 
-        if(type == 1){ //Displaying purpose behavior
+        if (type == 1) { // Displaying purpose behavior
             holder.itemView.setClickable(false);
-        }
-        else if(type == 2){
+        } else if (type == 2) {
             holder.itemView.setClickable(true);
-            // Periksa status pilihan dan ubah warna latar belakang
+            // Handle selection behavior
             if (selectedItems.get(position, false)) {
-                holder.itemView.setBackgroundColor(Color.LTGRAY); // Warna jika dipilih
+                holder.itemView.setBackgroundColor(Color.LTGRAY);
             } else {
-                holder.itemView.setBackgroundColor(Color.WHITE); // Warna default
+                holder.itemView.setBackgroundColor(Color.WHITE);
             }
 
-            // Tambahkan listener untuk menangani klik
             holder.itemView.setOnClickListener(v -> {
-                holder.itemView.setClickable(true);
                 if (selectedItems.get(position, false)) {
-                    // Jika sudah dipilih, hapus dari daftar pilihan
                     selectedItems.delete(position);
                     holder.itemView.setBackgroundColor(Color.WHITE);
                 } else {
-                    // Jika belum dipilih, tambahkan ke daftar pilihan
                     selectedItems.put(position, true);
                     holder.itemView.setBackgroundColor(Color.LTGRAY);
                 }
             });
-        }
-        else if(type == 3){
+        } else if (type == 3) {
             holder.itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(holder.itemView.getContext(), RecipeDetails.class);
-                holder.itemView.getContext().startActivity(intent);
-                //TODO Take data from firebase and display it in RecipeDetails
+                String recipeName = RVItem.getName();
+
+                // Initialize Firebase Database Reference
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
+                DatabaseReference recipeRef = database.getReference("Recipe");
+
+                // Query to find the recipe with the matching name
+                recipeRef.orderByChild("name").equalTo(recipeName).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                // Retrieve the recipe details
+                                String name = snapshot.child("name").getValue(String.class);
+                                boolean vegan = snapshot.child("vegan").getValue(Boolean.class);
+                                String veganString;
+                                if(vegan) veganString = "vegan";
+                                else veganString = "Non-Vegan";
+                                ArrayList<String> ingredients = new ArrayList<>();
+                                ArrayList<String> steps = new ArrayList<>();
+
+                                // Parse ingredients
+                                for (DataSnapshot ingredientSnapshot : snapshot.child("ingredients").getChildren()) {
+                                    ingredients.add(ingredientSnapshot.getValue(String.class));
+                                }
+
+                                // Parse steps
+                                for (DataSnapshot stepSnapshot : snapshot.child("steps").getChildren()) {
+                                    steps.add(stepSnapshot.getValue(String.class));
+                                }
+
+                                String output = name;
+                                for(String item : steps){
+                                    output += "\n";
+                                    output += "\n";
+                                    output += item;
+                                }
+
+                                String [] ingredientsArray = new String[ingredients.size()];
+                                ingredients.toArray(ingredientsArray);
+                                // Start RecipeDetails activity
+                                Intent intent = new Intent(holder.itemView.getContext(), RecipeDetails.class);
+                                intent.putExtra("output", output);
+//                                intent.putExtra("vegan", vegan);
+                                intent.putExtra("Ingredients", ingredientsArray);
+                                holder.itemView.getContext().startActivity(intent);
+
+                                break; // Only one recipe is expected, exit the loop
+                            }
+                        } else {
+                            // No recipe found
+                            Toast.makeText(holder.itemView.getContext(), "Recipe not found!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle database error
+                        Toast.makeText(holder.itemView.getContext(), "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
         }
-
     }
+
 
     @Override
     public int getItemCount() {
