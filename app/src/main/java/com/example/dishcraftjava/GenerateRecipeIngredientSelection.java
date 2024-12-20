@@ -83,7 +83,7 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
                 if (recipe != null) {
                     Intent intent = new Intent(GenerateRecipeIngredientSelection.this, RecipeDetails.class);
                     intent.putExtra("Ingredients", ingredients);
-                    intent.putExtra("Recipe", recipe);
+                    intent.putExtra("output", recipe);
                     Log.d("GenerateRecipe", "Recipe generated successfully: " + recipe);
                     startActivity(intent);
                 } else {
