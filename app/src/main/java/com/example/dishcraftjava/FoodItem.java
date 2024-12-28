@@ -16,7 +16,7 @@ public class FoodItem {
 
     // Constructor
     public FoodItem(int type) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://dishcraftjava-77bc5-default-rtdb.asia-southeast1.firebasedatabase.app/");
         if(type==1){
             this.databaseRef = database.getReference("Ingredient");
         }

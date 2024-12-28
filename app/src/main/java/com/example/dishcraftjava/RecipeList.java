@@ -45,7 +45,7 @@ public class RecipeList extends AppCompatActivity {
             return insets;
         });
 
-        database = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
+        database = FirebaseDatabase.getInstance("https://dishcraftjava-77bc5-default-rtdb.asia-southeast1.firebasedatabase.app/");
         RecipeRef = database.getReference("Recipe");
 
         backButton = findViewById(R.id.recipeListBackButton);

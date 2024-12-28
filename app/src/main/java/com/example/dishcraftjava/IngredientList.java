@@ -44,7 +44,7 @@ public class IngredientList extends AppCompatActivity {
         });
 
         ingredientRef = FirebaseDatabase
-                .getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
+                .getInstance("https://dishcraftjava-77bc5-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("Ingredient");
         backButton = findViewById(R.id.ingredientListBackButton);
         addNewIngredientButtonTV = findViewById(R.id.ingredientListAddNewIngredientButtonTV);

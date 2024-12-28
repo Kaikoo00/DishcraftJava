@@ -55,7 +55,7 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
         });
 
         ingredientRef = FirebaseDatabase
-                .getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app")
+                .getInstance("https://dishcraftjava-77bc5-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("Ingredient");
         backButton = findViewById(R.id.generateRecipeIngredientListBackButton);
         addNewIngredientButton = findViewById(R.id.generateRecipeIngredientListAddNewIngredientButtonTV);
@@ -154,7 +154,7 @@ public class GenerateRecipeIngredientSelection extends AppCompatActivity {
     }
 
     private void generateRecipe(String[] ingredients, RecipeCallback callback) {
-        GenerativeModel gen = new GenerativeModel("gemini-1.5-flash", "AIzaSyBhTUJio7t-m8ANcdxLP3RCpIservJIi3I");
+        GenerativeModel gen = new GenerativeModel("gemini-1.5-flash", "AIzaSyC9YMIzvpKyObnG2B88irYaa0SOa5Ho2lE");
         GenerativeModelFutures model = GenerativeModelFutures.from(gen);
 
         Content content = new Content.Builder()

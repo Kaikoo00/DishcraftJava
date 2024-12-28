@@ -80,7 +80,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.IngredientViewHold
                 String recipeName = RVItem.getName();
 
                 // Initialize Firebase Database Reference
-                FirebaseDatabase database = FirebaseDatabase.getInstance("https://dishcraftjava-default-rtdb.asia-southeast1.firebasedatabase.app");
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://dishcraftjava-77bc5-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 DatabaseReference recipeRef = database.getReference("Recipe");
 
                 // Query to find the recipe with the matching name
